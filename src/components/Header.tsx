@@ -1,5 +1,6 @@
 "use client";
 
+import Image from "next/image";
 import Link from "next/link";
 import { usePathname } from "next/navigation";
 import { useState } from "react";
@@ -64,11 +65,17 @@ export function Header() {
   return (
     <header className="fixed top-0 z-50 w-full border-b border-white/10 bg-background/80 backdrop-blur-md">
       <nav className="mx-auto flex max-w-container-max items-center justify-between px-margin-mobile py-6 md:px-margin-desktop">
-        <Link
-          href="/"
-          className="font-display-lg text-headline-sm tracking-tighter text-primary"
-        >
-          JAVI PATO
+        <Link href="/" className="flex items-center gap-3">
+          <Image
+            alt="Javi Pato logo"
+            className="h-10 w-10 rounded-full object-cover"
+            height={40}
+            src="/logo.png"
+            width={40}
+          />
+          <span className="font-display-lg text-headline-sm tracking-tighter text-primary">
+            JAVI PATO
+          </span>
         </Link>
 
         <div className="hidden items-center gap-stack-lg md:flex">
