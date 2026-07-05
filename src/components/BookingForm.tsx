@@ -26,7 +26,10 @@ export function BookingForm() {
       const formData = new FormData(formRef.current);
       const formEndpoint =
         process.env.NEXT_PUBLIC_FORM_ENDPOINT ?? "/api/book";
-      const response = await fetch(formEndpoint, {
+      const normalizedEndpoint = formEndpoint.endsWith("/")
+        ? formEndpoint.slice(0, -1)
+        : formEndpoint;
+      const response = await fetch(normalizedEndpoint, {
         method: "POST",
         body: formData,
       });
