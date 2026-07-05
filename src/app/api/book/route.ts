@@ -32,6 +32,28 @@ export async function POST(request: NextRequest) {
 
     const resend = new Resend(process.env.RESEND_API_KEY);
     const toEmail = process.env.BOOKING_TO_EMAIL ?? "hello@javipato.com";
+    const fromEmail = process.env.RESEND_FROM_EMAIL?.trim();
+
+    if (!fromEmail) {
+      return NextResponse.json(
+        {
+          message:
+            "Set RESEND_FROM_EMAIL to a verified sender address in Resend.",
+        },
+        { status: 500 },
+      );
+    }
+
+    if (fromEmail.endsWith("@resend.dev")) {
+      return NextResponse.json(
+        {
+          message:
+            "The current sender address is a Resend test address. Use a verified sender domain for production.",
+        },
+        { status: 500 },
+      );
+    }
+
     const attachments: Array<{
       filename: string;
       content: string;
@@ -61,7 +83,7 @@ export async function POST(request: NextRequest) {
     `;
 
     await resend.emails.send({
-      from: process.env.RESEND_FROM_EMAIL ?? "onboarding@resend.dev",
+      from: fromEmail,
       to: [toEmail],
       subject: `New tattoo inquiry from ${name}`,
       replyTo: email,
